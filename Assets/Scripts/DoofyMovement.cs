@@ -14,6 +14,10 @@ public class DoofyMovement : MonoBehaviour
     public float FootLag = 1.5f;
     [Range(0.1f, 2)]
     public float StepTime = 1f;
+    [Range(0.1f, 2)]
+    public float HeadMovement = 1f;
+    [Range(0.01f, 1)]
+    public float HeadMovementSpeed = 0.1f;
 
     [Header("Transforms")] 
     public GameObject LeftFootTarget;
@@ -83,6 +87,10 @@ public class DoofyMovement : MonoBehaviour
 
         _leftFoot.UpdateTarget();
         _rightFoot.UpdateTarget();
+        var headOffset = Vector3.down * 0.5f * strideLength + transform.InverseTransformDirection(movementDirection) * strideLength;
+        headOffset *= HeadMovement;
+        headOffset *= (_physics.velocity.magnitude / Speed);
+        HeadTarget.transform.localPosition = Vector3.Lerp(HeadTarget.transform.localPosition, headOffset, HeadMovementSpeed);
     }
 
     IEnumerator MoveFoot(Target foot)
