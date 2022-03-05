@@ -46,13 +46,16 @@ public class Throwing : MonoBehaviour
         grabbedObj.transform.parent = throwLoc.transform;
         grabbedObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         grabbedObj.transform.localPosition = Vector3.zero;
+        grabbedObj.GetComponent<Rigidbody>().mass = 0.001f;
     }
 
     void Throw()
     {
         Rigidbody throwRb = grabbedObj.GetComponent<Rigidbody>();
+        SphereCollider col = grabbedObj.GetComponent<SphereCollider>();
         throwRb.constraints = RigidbodyConstraints.None;
         throwRb.velocity = (new Vector3(0, upThrow, fwdThrow));
+        throwRb.mass = 1.0f;
     }
     GameObject Nearest()
     {

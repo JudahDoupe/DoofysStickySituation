@@ -190,7 +190,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2683212274188180558}
   m_Father: {fileID: 2385295622466317490}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -221,8 +222,7 @@ Transform:
   m_LocalPosition: {x: 1.061, y: 0.964, z: -0.649}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2683212274188180558}
+  m_Children: []
   m_Father: {fileID: 4882452320686746782}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -373,10 +373,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72962defb9fb52d45b7fd5a6686e66b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwLoc: {fileID: 0}
+  throwLoc: {fileID: 4589108915560014533}
   upThrow: 10
   fwdThrow: 10
-  lr: {fileID: 0}
+  lr: {fileID: 5357563130630184577}
 --- !u!114 &2023446084352966417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,13 +527,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2683212274188180558}
   - component: {fileID: 6823700945669566362}
+  - component: {fileID: 2090081573}
   m_Layer: 0
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2683212274188180558
 Transform:
   m_ObjectHideFlags: 0
@@ -541,14 +542,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5357563130630184577}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.55, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4882452319918867253}
+  m_Father: {fileID: 5646136310586110992}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!120 &6823700945669566362
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -647,7 +648,22 @@ LineRenderer:
     shadowBias: 0.5
     generateLightingData: 0
   m_UseWorldSpace: 0
-  m_Loop: 1
+  m_Loop: 0
+--- !u!114 &2090081573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5357563130630184577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf1900c2feffbe4e8b0a54b15b38ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vel: 14.14
+  angle: 45
+  resolution: 100
 --- !u!1 &5769394418527587154
 GameObject:
   m_ObjectHideFlags: 0
