@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class DoofyMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float Speed = 1;
-    [Range(0.1f,1)]
-    public float Acceleration = 0.5f;
+    [Range(1,10)]
+    public float Acceleration = 5;
     [Range(1f,2)]
     public float Stride = 1f;
     [Range(1f, 2f)]
@@ -16,8 +17,10 @@ public class DoofyMovement : MonoBehaviour
     public float StepTime = 1f;
     [Range(0.1f, 2)]
     public float HeadMovement = 1f;
-    [Range(0.01f, 1)]
-    public float HeadMovementSpeed = 0.1f;
+    [Range(1, 10)]
+    public float HeadMovementSpeed = 5f;
+    [Range(1, 10)]
+    public float RotationSpeed = 5f;
 
     [Header("Transforms")] 
     public GameObject LeftFootTarget;
@@ -53,7 +56,7 @@ public class DoofyMovement : MonoBehaviour
         };
     }
 
-    void FixedUpdate()
+    void Update()
     {
         var forward = Flatten(Camera.main.transform.forward).normalized;
         var right = Flatten(Camera.main.transform.right).normalized;
@@ -61,16 +64,14 @@ public class DoofyMovement : MonoBehaviour
         var movementInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         var movementDirection = (forward * movementInput.y + right * movementInput.x).normalized;
         var movementVector = movementDirection * Speed;
+        _physics.velocity = Vector3.Lerp(_physics.velocity, movementVector, Acceleration * Time.deltaTime);
 
-        _physics.velocity = Vector3.Lerp(_physics.velocity, movementVector, Acceleration);
         var strideLength = Stride * (_physics.velocity.magnitude / Speed);
         var stride = movementDirection * strideLength;
         var centerOfGravity = transform.position;
 
         if (!_footIsMoving && _leftFoot.UpdateTargetPos(centerOfGravity, stride) && _rightFoot.UpdateTargetPos(centerOfGravity, stride))
         {
-            var currentCenter = Center(_leftFoot.CurrentPos, _rightFoot.CurrentPos);
-            var targetCenter = Center(_leftFoot.TargetPos, _rightFoot.TargetPos);
             if (_leftFoot.Distance > strideLength * FootLag)
             {
                 StartCoroutine(MoveFoot(_leftFoot));
@@ -87,10 +88,16 @@ public class DoofyMovement : MonoBehaviour
 
         _leftFoot.UpdateTarget();
         _rightFoot.UpdateTarget();
-        var headOffset = Vector3.down * 0.5f * strideLength + transform.InverseTransformDirection(movementDirection) * strideLength;
-        headOffset *= HeadMovement;
-        headOffset *= (_physics.velocity.magnitude / Speed);
-        HeadTarget.transform.localPosition = Vector3.Lerp(HeadTarget.transform.localPosition, headOffset, HeadMovementSpeed);
+
+        if (movementInput.magnitude > 0)
+        {
+            var headOffset = Vector3.down * 0.5f * strideLength + transform.InverseTransformDirection(movementDirection) * strideLength;
+            headOffset *= HeadMovement;
+            headOffset *= (_physics.velocity.magnitude / Speed);
+            HeadTarget.transform.localPosition = Vector3.Lerp(HeadTarget.transform.localPosition, headOffset, HeadMovementSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(movementDirection, Vector3.up),
+                RotationSpeed * Time.deltaTime);
+        }
     }
 
     IEnumerator MoveFoot(Target foot)
@@ -101,7 +108,8 @@ public class DoofyMovement : MonoBehaviour
         while (time < StepTime)
         {
             var t = time / StepTime;
-            foot.CurrentPos = Vector3.Lerp(start, foot.TargetPos, t);
+            foot.CurrentPos = Vector3.Lerp(start, foot.TargetPos, t)
+                              + Vector3.up * math.sin(t * math.PI) / 2f;
             yield return new WaitForEndOfFrame();
             time += Time.deltaTime;
         }
@@ -123,7 +131,7 @@ public class DoofyMovement : MonoBehaviour
         public void UpdateTarget() => Obj.transform.position = CurrentPos;
         public bool UpdateTargetPos(Vector3 centerOfGravity, Vector3 stride)
         {
-            if (!Physics.Raycast(new Ray(centerOfGravity + Offset + stride, Vector3.down), out var hit, 1.5f))
+            if (!Physics.Raycast(new Ray(centerOfGravity + Offset + stride, Vector3.down), out var hit, 3f))
                 return false;
 
             TargetPos = hit.point;
