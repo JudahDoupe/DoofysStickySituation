@@ -6,15 +6,17 @@ public class Throwing : MonoBehaviour
 {
 
     private List<GameObject> throwables = new List<GameObject>();
-    private GameObject throwLoc;
+    public GameObject throwLoc;
     private bool holding;
     public float upThrow = 100;
     public float fwdThrow = 100;
+    private GameObject grabbedObj;
+    public GameObject lr;
 
     // Start is called before the first frame update
     void Start()
     {
-        throwLoc = transform.GetChild(0).gameObject;
+        //throwLoc = transform.GetChild(0).gameObject;
         holding = false;
     }
 
@@ -27,31 +29,33 @@ public class Throwing : MonoBehaviour
             {
                 holding = true;
                 Grab();
+                lr.SetActive(true);
             }
             else if (throwables.Count > 0 && holding)
             {
                 holding = false;
                 Throw();
+                lr.SetActive(false);
             }
         }
     }
 
     void Grab()
     {
-        GameObject objToThrow = Nearest();
-        objToThrow.transform.parent = throwLoc.transform;
-        objToThrow.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        objToThrow.transform.localPosition = Vector3.zero;
-
+        grabbedObj = Nearest();
+        grabbedObj.transform.parent = throwLoc.transform;
+        grabbedObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        grabbedObj.transform.localPosition = Vector3.zero;
+        grabbedObj.GetComponent<Rigidbody>().mass = 0.001f;
     }
 
     void Throw()
     {
-        GameObject throwee = throwLoc.transform.GetChild(0).gameObject;
-        Rigidbody throwRb = throwee.GetComponent<Rigidbody>();
+        Rigidbody throwRb = grabbedObj.GetComponent<Rigidbody>();
+        SphereCollider col = grabbedObj.GetComponent<SphereCollider>();
         throwRb.constraints = RigidbodyConstraints.None;
         throwRb.velocity = (new Vector3(0, upThrow, fwdThrow));
-
+        throwRb.mass = 1.0f;
     }
     GameObject Nearest()
     {
