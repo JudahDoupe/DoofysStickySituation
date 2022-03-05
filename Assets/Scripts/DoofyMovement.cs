@@ -18,9 +18,10 @@ public class DoofyMovement : MonoBehaviour
     [Header("Transforms")] 
     public GameObject LeftFootTarget;
     public GameObject RightFootTarget;
+    public GameObject HeadTarget;
 
-    private Foot _leftFoot;
-    private Foot _rightFoot;
+    private Target _leftFoot;
+    private Target _rightFoot;
     private bool _footIsMoving = false;
 
     private Animator _animator;
@@ -32,16 +33,16 @@ public class DoofyMovement : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _physics = GetComponent<Rigidbody>();
-        _leftFoot = new Foot()
+        _leftFoot = new Target()
         {
-            Target = LeftFootTarget,
+            Obj = LeftFootTarget,
             CurrentPos = LeftFootTarget.transform.position,
             TargetPos = LeftFootTarget.transform.position,
             Offset = Vector3.Scale(LeftFootTarget.transform.position - transform.position, new Vector3(1, 0, 0)),
         };
-        _rightFoot = new Foot()
+        _rightFoot = new Target()
         {
-            Target = RightFootTarget,
+            Obj = RightFootTarget,
             CurrentPos = RightFootTarget.transform.position,
             TargetPos = RightFootTarget.transform.position,
             Offset = Vector3.Scale(RightFootTarget.transform.position - transform.position, new Vector3(1, 0, 0)),
@@ -84,7 +85,7 @@ public class DoofyMovement : MonoBehaviour
         _rightFoot.UpdateTarget();
     }
 
-    IEnumerator MoveFoot(Foot foot)
+    IEnumerator MoveFoot(Target foot)
     {
         var time = 0f;
         var start = foot.CurrentPos;
@@ -103,15 +104,15 @@ public class DoofyMovement : MonoBehaviour
     Vector3 Center(Vector3 p1, Vector3 p2) => p1 + (p1 - p2) * 0.5f;
     Vector3 Flatten(Vector3 v) => Vector3.Scale(v, new Vector3(1, 0, 1));
 
-    class Foot
+    class Target
     {
-        public GameObject Target;
+        public GameObject Obj;
         public Vector3 CurrentPos;
         public Vector3 TargetPos;
         public Vector3 Offset;
         public float Distance => Vector3.Distance(CurrentPos, TargetPos);
 
-        public void UpdateTarget() => Target.transform.position = CurrentPos;
+        public void UpdateTarget() => Obj.transform.position = CurrentPos;
         public bool UpdateTargetPos(Vector3 centerOfGravity, Vector3 stride)
         {
             if (!Physics.Raycast(new Ray(centerOfGravity + Offset + stride, Vector3.down), out var hit, 1.5f))
