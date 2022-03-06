@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BookMovement : MonoBehaviour
+public class PillowTrigger : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,13 +14,5 @@ public class BookMovement : MonoBehaviour
     void Update()
     {
         
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Throwable")
-        {
-            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        }
     }
 }
