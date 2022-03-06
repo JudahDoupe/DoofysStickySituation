@@ -64,6 +64,7 @@ public class DoofyMovement : MonoBehaviour
         var movementInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         var movementDirection = (forward * movementInput.y + right * movementInput.x).normalized;
         var movementVector = movementDirection * Speed;
+        movementVector.y = _physics.velocity.y;
         _physics.velocity = Vector3.Lerp(_physics.velocity, movementVector, Acceleration * Time.deltaTime);
 
         var strideLength = Stride * (_physics.velocity.magnitude / Speed);

@@ -393,7 +393,7 @@ MonoBehaviour:
   Stride: 2
   FootLag: 1.5
   StepTime: 0.4
-  HeadMovement: 0.2
+  HeadMovement: 0.302
   HeadMovementSpeed: 3.19
   RotationSpeed: 2.23
   LeftFootTarget: {fileID: 8442589436278464009}
