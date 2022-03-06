@@ -15,4 +15,12 @@ public class BookMovement : MonoBehaviour
     {
         
     }
+
+    void onCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Throwable")
+        {
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        }
+    }
 }
