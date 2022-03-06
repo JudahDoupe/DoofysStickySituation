@@ -28,6 +28,12 @@ public class Throwing : MonoBehaviour
     private Vector3 leftLocal;
     private Vector3 rightLocal;
 
+    void Start()
+    {
+        leftLocal = LeftHandTarget.transform.localPosition;
+        rightLocal = RightHandTarget.transform.localPosition;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Mouse0))
@@ -130,6 +136,9 @@ public class Throwing : MonoBehaviour
         SphereCollider col = ball.GetComponent<SphereCollider>();
         throwRb.constraints = RigidbodyConstraints.None;
         throwRb.velocity = (transform.up * upThrow + transform.forward * fwdThrow);
+
+        LeftHandTarget.transform.localPosition = leftLocal;
+        RightHandTarget.transform.localPosition = rightLocal;
     }
     GameObject Nearest() =>
         balls.Aggregate((min, x) =>
