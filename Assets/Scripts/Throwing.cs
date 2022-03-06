@@ -28,7 +28,7 @@ public class Throwing : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Mouse0))
         {
             if (balls.Count > 0 && !holding)
             {
@@ -81,6 +81,7 @@ public class Throwing : MonoBehaviour
         var rightEndPos = ball.transform.position + (endRotation * Vector3.right) * radius;
 
         ball.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        ball.GetComponent<Collider>().enabled = false;
 
         while (time < halfTime)
         {
@@ -122,6 +123,7 @@ public class Throwing : MonoBehaviour
 
     void Throw()
     {
+        ball.GetComponent<Collider>().enabled = true;
         Rigidbody throwRb = ball.GetComponent<Rigidbody>();
         SphereCollider col = ball.GetComponent<SphereCollider>();
         throwRb.constraints = RigidbodyConstraints.None;
