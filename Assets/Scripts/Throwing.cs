@@ -94,7 +94,7 @@ public class Throwing : MonoBehaviour
         Rigidbody throwRb = grabbedObj.GetComponent<Rigidbody>();
         SphereCollider col = grabbedObj.GetComponent<SphereCollider>();
         throwRb.constraints = RigidbodyConstraints.None;
-        grabbedObj.transform.LookAt(forwardObj.transform);
+        //grabbedObj.transform.LookAt(forwardObj.transform);
         throwRb.velocity = (transform.up * upThrow + transform.forward * fwdThrow);
         throwRb.mass = 1.0f;
     }
@@ -105,12 +105,10 @@ public class Throwing : MonoBehaviour
     }
     void OnTriggerEnter(Collider col)
     {
-        Debug.Log(col.gameObject.name);
         if (col.CompareTag("Throwable"))
         {
-            throwables.Add(col.gameObject);               
-            for (int i = 0; i < throwables.Count; i++)
-                Debug.Log("throwable" + throwables[i] + " " + i);
+            throwables.Add(col.gameObject); 
+            col.gameObject.GetComponentInChildren<Renderer>().material.SetFloat("_OutlineThickness", 0.0075f);
         }
     }
 
@@ -119,8 +117,7 @@ public class Throwing : MonoBehaviour
         if (col.CompareTag("Throwable"))
         {
             throwables.Remove(col.gameObject);
-            for (int i = 0; i < throwables.Count; i++)
-                Debug.Log("throwable" + throwables[i] + " " + i);
+            col.gameObject.GetComponentInChildren<Renderer>().material.SetFloat("_OutlineThickness", 0);
         }
     }
 }
