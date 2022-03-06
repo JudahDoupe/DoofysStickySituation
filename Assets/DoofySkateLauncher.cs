@@ -32,6 +32,7 @@ public class DoofySkateLauncher : MonoBehaviour
         Debug.Log("Hit");
         if ((col.name == "Book" || col.gameObject.name == "Book") && !launch)
         {
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             launch = true;
             Physics.IgnoreCollision(DoofCol, thisCol, true);
             Doofy.GetComponent<Launch>().startLaunch();

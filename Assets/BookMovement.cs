@@ -16,7 +16,7 @@ public class BookMovement : MonoBehaviour
         
     }
 
-    void onCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Throwable")
         {
