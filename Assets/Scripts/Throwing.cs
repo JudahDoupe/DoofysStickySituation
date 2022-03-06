@@ -25,6 +25,8 @@ public class Throwing : MonoBehaviour
     private bool grabbing = false;
     private bool throwing = false;
 
+    private Vector3 leftLocal;
+    private Vector3 rightLocal;
 
     void Update()
     {
