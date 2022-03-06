@@ -64,14 +64,13 @@ public class DoofyMovement : MonoBehaviour
         var movementInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         var movementDirection = (forward * movementInput.y + right * movementInput.x).normalized;
         var movementVector = movementDirection * Speed;
-        movementVector.y = _physics.velocity.y;
-        _physics.velocity = Vector3.Lerp(_physics.velocity, movementVector, Acceleration * Time.deltaTime);
 
         var strideLength = Stride * (_physics.velocity.magnitude / Speed);
         var stride = movementDirection * strideLength;
         var centerOfGravity = transform.position;
 
-        if (!_footIsMoving && _leftFoot.UpdateTargetPos(centerOfGravity, stride) && _rightFoot.UpdateTargetPos(centerOfGravity, stride))
+        var grounded = _leftFoot.UpdateTargetPos(centerOfGravity, stride) && _rightFoot.UpdateTargetPos(centerOfGravity, stride);
+        if (!_footIsMoving && grounded)
         {
             if (_leftFoot.Distance > strideLength * FootLag)
             {
@@ -82,13 +81,13 @@ public class DoofyMovement : MonoBehaviour
                 StartCoroutine(MoveFoot(_rightFoot));
             }
         }
-        else
+        if (grounded)
         {
-            //Ragdoll
+            movementVector.y = _physics.velocity.y;
+            _physics.velocity = Vector3.Lerp(_physics.velocity, movementVector, Acceleration * Time.deltaTime);
+            _leftFoot.UpdateTarget();
+            _rightFoot.UpdateTarget();
         }
-
-        _leftFoot.UpdateTarget();
-        _rightFoot.UpdateTarget();
 
         if (movementInput.magnitude > 0)
         {

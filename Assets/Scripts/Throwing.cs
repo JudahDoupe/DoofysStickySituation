@@ -8,10 +8,13 @@ public class Throwing : MonoBehaviour
     private List<GameObject> throwables = new List<GameObject>();
     public GameObject throwLoc;
     private bool holding;
-    public float upThrow = 100;
-    public float fwdThrow = 100;
+    public float upThrow = 10f;
+    public float fwdThrow = 10f;
     private GameObject grabbedObj;
     public GameObject lr;
+    public GameObject forwardObj;
+    private Vector3 forward;
+
 
     // Start is called before the first frame update
     void Start()
@@ -51,10 +54,12 @@ public class Throwing : MonoBehaviour
 
     void Throw()
     {
+        grabbedObj.transform.parent.DetachChildren();
         Rigidbody throwRb = grabbedObj.GetComponent<Rigidbody>();
         SphereCollider col = grabbedObj.GetComponent<SphereCollider>();
         throwRb.constraints = RigidbodyConstraints.None;
-        throwRb.velocity = (new Vector3(0, upThrow, fwdThrow));
+        grabbedObj.transform.LookAt(forwardObj.transform);
+        throwRb.velocity = (transform.up * upThrow + transform.forward * fwdThrow);
         throwRb.mass = 1.0f;
     }
     GameObject Nearest()
@@ -67,7 +72,9 @@ public class Throwing : MonoBehaviour
         Debug.Log(col.gameObject.name);
         if (col.CompareTag("Throwable"))
         {
-            throwables.Add(col.gameObject);
+            throwables.Add(col.gameObject);               
+            for (int i = 0; i < throwables.Count; i++)
+                Debug.Log("throwable" + throwables[i] + " " + i);
         }
     }
 
@@ -76,6 +83,8 @@ public class Throwing : MonoBehaviour
         if (col.CompareTag("Throwable"))
         {
             throwables.Remove(col.gameObject);
+            for (int i = 0; i < throwables.Count; i++)
+                Debug.Log("throwable" + throwables[i] + " " + i);
         }
     }
 }
