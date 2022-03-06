@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PillowTrigger : MonoBehaviour
 {
-
+    public float MinVelocity = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +26,7 @@ public class PillowTrigger : MonoBehaviour
     }
     private void OnCollisionEnter (Collision col)
     {
-        if (col.collider.tag == "Throwable" && col.gameObject.GetComponent<Rigidbody>().velocity.magnitude > 10)
+        if (col.collider.tag == "Throwable" && col.gameObject.GetComponent<Rigidbody>().velocity.magnitude > MinVelocity)
         {
             RollPillow();
         }

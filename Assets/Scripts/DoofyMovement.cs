@@ -81,13 +81,10 @@ public class DoofyMovement : MonoBehaviour
                 StartCoroutine(MoveFoot(_rightFoot));
             }
         }
-        if (grounded)
-        {
-            movementVector.y = _physics.velocity.y;
-            _physics.velocity = Vector3.Lerp(_physics.velocity, movementVector, Acceleration * Time.deltaTime);
-            _leftFoot.UpdateTarget();
-            _rightFoot.UpdateTarget();
-        }
+        movementVector.y = _physics.velocity.y;
+        _physics.velocity = Vector3.Lerp(_physics.velocity, movementVector, Acceleration * Time.deltaTime);
+        _leftFoot.UpdateTarget();
+        _rightFoot.UpdateTarget();
 
         if (movementInput.magnitude > 0)
         {
@@ -131,7 +128,8 @@ public class DoofyMovement : MonoBehaviour
         public void UpdateTarget() => Obj.transform.position = CurrentPos;
         public bool UpdateTargetPos(Vector3 centerOfGravity, Vector3 stride)
         {
-            if (!Physics.Raycast(new Ray(centerOfGravity + Offset + stride, Vector3.down), out var hit, 3f))
+            var ray = new Ray(centerOfGravity + Offset + stride, Vector3.down);
+            if (!Physics.Raycast(ray, out var hit, 5))
                 return false;
 
             TargetPos = hit.point;

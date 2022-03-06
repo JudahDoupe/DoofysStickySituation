@@ -359,7 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72962defb9fb52d45b7fd5a6686e66b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upThrow: 10
+  upThrow: 15
   fwdThrow: 10
   lr: {fileID: 5357563130630184577}
   RightHandTarget: {fileID: 4589108915560014533}
@@ -378,7 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 751da2295dafe2249b2f82ef4c65cb58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 3
+  Speed: 5
   Acceleration: 7
   Stride: 2
   FootLag: 1.5
@@ -416,6 +416,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   up: 30
   forward: 30
+  doofy: {fileID: 4882452320686746755}
 --- !u!1 &5357563130630184577
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,8 +561,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf1900c2feffbe4e8b0a54b15b38ae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vel: 14.14
-  angle: 45
+  vel: 14.4
+  angle: 55
   resolution: 100
 --- !u!1 &5769394418527587154
 GameObject:

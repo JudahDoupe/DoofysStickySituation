@@ -29,7 +29,6 @@ public class DoofySkateLauncher : MonoBehaviour
 
     private void OnTriggerEnter (Collider col)
     {
-        Debug.Log("Hit");
         if ((col.name == "Book" || col.gameObject.name == "Book") && !launch)
         {
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;

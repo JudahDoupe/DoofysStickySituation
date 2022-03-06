@@ -49,9 +49,4 @@ public class ArcRender : MonoBehaviour
         float y = x * Mathf.Tan(radianAngle) - ((g * x * x) / (2 * vel * vel * Mathf.Cos(radianAngle) * Mathf.Cos(radianAngle)));
         return new Vector3(x, y);
     }
-
-    void Update()
-    {
-        
-    }
 }
