@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Throwing : MonoBehaviour
@@ -7,49 +8,84 @@ public class Throwing : MonoBehaviour
 
     private List<GameObject> throwables = new List<GameObject>();
     public GameObject throwLoc;
-    private bool holding;
-    public float upThrow = 10f;
-    public float fwdThrow = 10f;
+    public float upThrow = 10;
+    public float fwdThrow = 10;
     private GameObject grabbedObj;
     public GameObject lr;
-    public GameObject forwardObj;
-    private Vector3 forward;
+    public GameObject RightHandTarget;
+    public GameObject LeftHandTarget;
+    [Range(0,1)]
+    public float GrabTime;
 
+    private bool holding = false;
+    private bool grabbing = false;
+    private bool throwing = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //throwLoc = transform.GetChild(0).gameObject;
-        holding = false;
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (throwables.Count > 0 && !holding)
             {
-                holding = true;
-                Grab();
-                lr.SetActive(true);
+                grabbedObj = Nearest();
+                StartCoroutine(Grab(grabbedObj));
             }
-            else if (throwables.Count > 0 && holding)
+            else if (throwables.Count > 0 && holding && !grabbing)
             {
                 holding = false;
                 Throw();
                 lr.SetActive(false);
             }
         }
+
+        if (holding && !grabbing && !throwing)
+        {
+            RightHandTarget.transform.position = throwLoc.transform.position;
+        }
     }
 
-    void Grab()
+    IEnumerator Grab(GameObject ball)
     {
-        grabbedObj = Nearest();
-        grabbedObj.transform.parent = throwLoc.transform;
-        grabbedObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        grabbedObj.transform.localPosition = Vector3.zero;
-        grabbedObj.GetComponent<Rigidbody>().mass = 0.001f;
+        holding = true;
+        grabbing = true;
+
+        var time = 0f;
+        var halfTime = GrabTime / 2f;
+
+        var startPos = RightHandTarget.transform.position;
+        var endPos = ball.transform.position;
+
+        ball.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        ball.transform.parent = RightHandTarget.transform;
+        ball.transform.localPosition = Vector3.zero;
+
+        while (time < halfTime)
+        {
+            var t = time / halfTime;
+            RightHandTarget.transform.position = Vector3.Lerp(startPos, endPos, t);
+            ball.transform.localPosition = Vector3.Lerp(ball.transform.localPosition, Vector3.zero, t);
+
+            yield return new WaitForEndOfFrame();
+            time += Time.deltaTime;
+        }
+
+        ball.GetComponent<Rigidbody>().mass = 0.001f;
+
+        startPos = RightHandTarget.transform.position;
+        endPos = throwLoc.transform.position;
+
+        while (time < GrabTime)
+        {
+            var t = (time - halfTime) / halfTime;
+            var offset = transform.right * math.sin(t * math.PI);
+            RightHandTarget.transform.position = Vector3.Lerp(startPos, endPos, t) + offset;
+
+            yield return new WaitForEndOfFrame();
+            time += Time.deltaTime;
+        }
+
+        grabbing = false;
+        lr.SetActive(true);
     }
 
     void Throw()
