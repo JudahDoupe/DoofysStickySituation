@@ -131,6 +131,7 @@ public class Throwing : MonoBehaviour
 
     void Throw()
     {
+        balls.Remove(ball);
         ball.GetComponent<Collider>().enabled = true;
         Rigidbody throwRb = ball.GetComponent<Rigidbody>();
         SphereCollider col = ball.GetComponent<SphereCollider>();

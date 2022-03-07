@@ -38,6 +38,8 @@ public class DoofyMovement : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         _animator = GetComponent<Animator>();
         _physics = GetComponent<Rigidbody>();
         _leftFoot = new Target()
@@ -58,6 +60,7 @@ public class DoofyMovement : MonoBehaviour
 
     void Update()
     {
+        if (Camera.main == null) return;
         var forward = Flatten(Camera.main.transform.forward).normalized;
         var right = Flatten(Camera.main.transform.right).normalized;
 
