@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1271498841308656474, guid: 139c990da3041b142b84624b0b628472,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: c774be2e7ac8a8349afb5a311c21d353,
+        type: 2}
     - target: {fileID: 1271498841308656475, guid: 139c990da3041b142b84624b0b628472,
         type: 3}
       propertyPath: m_RootOrder
@@ -66,6 +72,32 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GolfBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 1271498841899273472, guid: 139c990da3041b142b84624b0b628472,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 2122681682525997855, guid: d3ccd07f3faf5d141a6244ad17db5bc9,
+        type: 3}
+    - target: {fileID: 1271498841899273473, guid: 139c990da3041b142b84624b0b628472,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d1e75425f29860e4eaa0bceacc1a292a, type: 2}
+    - target: {fileID: 1271498841899273487, guid: 139c990da3041b142b84624b0b628472,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1271498841899273487, guid: 139c990da3041b142b84624b0b628472,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1271498841899273487, guid: 139c990da3041b142b84624b0b628472,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 139c990da3041b142b84624b0b628472, type: 3}
